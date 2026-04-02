@@ -1,0 +1,31 @@
+name: Docker Container Monitor
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360  # GitHub lo detiene automáticamente a las 6 horas
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: |
+        docker build -t my-container .
+
+    - name: Start 7 containers
+      run: |
+        for i in {1..7}; do
+          NEW_NAME="container-$i"
+          docker run -d --name $NEW_NAME -p 590$i:5901 -p 22$i:22 my-container
+          echo "Iniciado $NEW_NAME"
+        done
+
+    - name: Keep job alive
+      run: |
+        echo "Contenedores corriendo hasta que GitHub detenga el job (6h)..."
+        tail -f /dev/null
