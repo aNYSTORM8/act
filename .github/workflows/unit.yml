@@ -16,8 +16,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t bitpingd-login .
 
-      - name: Run container
+      - name: Run container and keep it alive
         run: |
           docker run --rm \
             --mount type=volume,source=bitpingd-volume,target=/root/.bitpingd \
-            bitpingd-login
+            bitpingd-login \
+            /bin/sh -c "echo 'Container started, keeping it alive...' && tail -f /dev/null"
