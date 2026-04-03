@@ -1,29 +1,7 @@
-# Stage 1: Get the traffmonetizer binary from its official image
-FROM docker.io/traffmonetizer/cli_v2:latest AS builder
+FROM bitping/bitpingd:latest
 
-# Stage 2: Set up our final Python environment
-FROM python:3.9-slim-buster
+# Establecer el entrypoint
+ENTRYPOINT ["/app/bitpingd"]
 
-# Set the working directory
-WORKDIR /app
-
-# Copy the traffmonetizer binary from the first stage into our final image
-COPY --from=builder /usr/local/bin/cli /usr/local/bin/traffmonetizer
-RUN chmod +x /usr/local/bin/traffmonetizer
-
-# Copy our application files
-COPY ./requirements.txt /app/requirements.txt
-COPY ./app.py /app/app.py
-COPY ./start.sh /app/start.sh
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Make the start script executable
-RUN chmod +x /app/start.sh
-
-# Expose the port our FastAPI app runs on
-EXPOSE 7860
-
-# Run our start script
-CMD ["/app/start.sh"]
+# Comando por defecto (puedes cambiarlo en runtime si quieres)
+CMD ["login", "--email", "margretsapphire@sharebot.net", "--password", "K2,)td+X&=R9sL+"]
