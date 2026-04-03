@@ -11,6 +11,7 @@ on:
 jobs:
   run-bitping:
     runs-on: ubuntu-latest
+    timeout-minutes: 240  # 4 horas
 
     steps:
       - name: Checkout repository
