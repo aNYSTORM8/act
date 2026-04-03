@@ -1,4 +1,4 @@
-name: Run Bitping Container
+name: Run Bitping Node
 
 on:
   push:
@@ -11,16 +11,16 @@ on:
 jobs:
   run-bitping:
     runs-on: ubuntu-latest
-    timeout-minutes: 240  # 4 horas
+    timeout-minutes: 240
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Build Bitping Docker image
+      - name: Build Docker image
         run: docker build -t bitpingd-login .
 
-      - name: Run Bitping container and keep it alive
+      - name: Run Docker container
         run: |
           docker run \
             --mount type=volume,source=bitpingd-volume,target=/root/.bitpingd \
