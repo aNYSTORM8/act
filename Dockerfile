@@ -1,12 +1,11 @@
-# Use the official Bitping image as base
 FROM bitping/bitpingd:latest
 
-# Set environment variables for login
-ENV BITPING_EMAIL="margretsapphire@sharebot.net"
-ENV BITPING_PASSWORD="K2,)td+X&=R9sL+"
+# Variables de entorno (puedes dejar tu email/password aquí si no usas secrets)
+ENV BITPING_EMAIL="YOUR_BITPING_EMAIL"
+ENV BITPING_PASSWORD="YOUR_BITPING_PASSWORD"
 
-# Use a shell to allow multiple commands
+# Shell como entrypoint para que CMD con && funcione
 ENTRYPOINT ["/bin/sh", "-c"]
 
-# Login and keep the container alive
-CMD "/app/bitpingd login --email $BITPING_EMAIL --password $BITPING_PASSWORD && echo 'Container is now alive' && tail -f /dev/null"
+# CMD: login y mantener vivo
+CMD "/app/bitpingd login --email $BITPING_EMAIL --password $BITPING_PASSWORD && echo 'Container alive' && tail -f /dev/null"
