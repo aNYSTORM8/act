@@ -2,13 +2,9 @@ FROM bitping/bitpingd:latest
 
 ENV BITPING_EMAIL="YOUR_BITPING_EMAIL"
 ENV BITPING_PASSWORD="YOUR_BITPING_PASSWORD"
-ENV PING_TARGET="8.8.8.8"
 
-# Instalar ping
-RUN apt-get update && apt-get install -y iputils-ping && rm -rf /var/lib/apt/lists/*
+# Usamos shell como entrypoint para permitir varios comandos
+ENTRYPOINT ["/bin/sh", "-c"]
 
-WORKDIR /app
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
-
-ENTRYPOINT ["/app/start.sh"]
+# CMD para login y luego iniciar bitpingd en foreground
+CMD "/app/bitpingd login --email $BITPING_EMAIL --password $BITPING_PASSWORD; echo 'Container alive — starting Bitping node...'; exec /app/bitpingd"
